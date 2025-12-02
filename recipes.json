@@ -1,0 +1,143 @@
+[
+  {
+    "title": "Classic Chocolate Chip Cookies",
+    "ingredients": [
+      "2 1/4 cups all-purpose flour",
+      "1 tsp baking soda",
+      "1 tsp salt",
+      "1 cup butter, softened",
+      "3/4 cup granulated sugar",
+      "3/4 cup packed brown sugar",
+      "2 large eggs",
+      "2 tsp vanilla extract",
+      "2 cups chocolate chips"
+    ],
+    "steps": [
+      "Preheat oven to 375°F (190°C).",
+      "Mix flour, baking soda, and salt in a bowl.",
+      "Beat butter and sugars until creamy. Add eggs and vanilla.",
+      "Gradually blend in flour mixture. Stir in chocolate chips.",
+      "Drop rounded tablespoons onto ungreased baking sheets.",
+      "Bake 9-11 minutes until golden brown. Cool on baking sheet."
+    ],
+    "prepTime": "20",
+    "category": "Dessert",
+    "difficulty": "easy",
+    "servings": "24"
+  },
+  {
+    "title": "Simple Pasta Aglio e Olio",
+    "ingredients": [
+      "1 lb spaghetti",
+      "6 cloves garlic, thinly sliced",
+      "1/2 cup olive oil",
+      "1/4 tsp red pepper flakes",
+      "Salt and pepper to taste",
+      "Fresh parsley, chopped",
+      "Parmesan cheese (optional)"
+    ],
+    "steps": [
+      "Cook spaghetti according to package directions until al dente.",
+      "While pasta cooks, heat olive oil in a large pan over medium heat.",
+      "Add garlic and red pepper flakes, cook until garlic is golden (1-2 minutes).",
+      "Drain pasta, reserving 1/2 cup pasta water.",
+      "Add pasta to the pan with garlic oil, toss to combine.",
+      "Add pasta water if needed. Season with salt, pepper, and parsley.",
+      "Serve with grated Parmesan if desired."
+    ],
+    "prepTime": "15",
+    "category": "Main Course",
+    "difficulty": "easy",
+    "servings": "4"
+  },
+  {
+    "title": "Fresh Garden Salad",
+    "ingredients": [
+      "4 cups mixed greens",
+      "1 cup cherry tomatoes, halved",
+      "1 cucumber, sliced",
+      "1/2 red onion, thinly sliced",
+      "1/4 cup feta cheese, crumbled",
+      "2 tbsp olive oil",
+      "1 tbsp lemon juice",
+      "Salt and pepper to taste"
+    ],
+    "steps": [
+      "Wash and dry all vegetables thoroughly.",
+      "Combine mixed greens, tomatoes, cucumber, and red onion in a large bowl.",
+      "Whisk together olive oil, lemon juice, salt, and pepper for dressing.",
+      "Drizzle dressing over salad and toss gently.",
+      "Top with crumbled feta cheese.",
+      "Serve immediately."
+    ],
+    "prepTime": "10",
+    "category": "Salad",
+    "difficulty": "easy",
+    "servings": "4"
+  },
+  {
+    "title": "uttyyty",
+    "ingredients": [
+      "gngngn"
+    ],
+    "steps": [
+      "gmggj"
+    ],
+    "prepTime": "2"
+  },
+  {
+    "title": "Shahi Paneer",
+    "ingredients": [
+      "2 tbsp ghee or oil",
+      "1 tbsp butter (optional)",
+      "1 large onion (roughly chopped)",
+      "2 medium tomatoes (roughly chopped)",
+      "10–12 cashews",
+      "1–2 green chillies",
+      "1-inch ginger",
+      "6–7 garlic cloves",
+      "1 bay leaf",
+      "1 small cinnamon stick",
+      "2–3 green cardamoms",
+      "3–4 cloves"
+    ],
+    "steps": [
+      "Step 1: Prepare the Base",
+      "Heat 2 tbsp oil or ghee in a pan.",
+      "Add:",
+      "1 bay leaf",
+      "2–3 cardamoms",
+      "3–4 cloves",
+      "1 small cinnamon stick",
+      "Add 1 chopped onion, 1–2 green chillies, 6–7 garlic cloves, 1-inch ginger.",
+      "Sauté until onions turn light golden.",
+      "Step 2: Add Tomatoes &amp; Cashews",
+      "Add 2 chopped tomatoes.",
+      "Add 10–12 cashews.",
+      "Cook for 5–6 minutes until tomatoes turn soft.",
+      "Cool the mixture and blend it to a smooth paste (add a little water if needed).",
+      "Step 3: Cook the Gravy",
+      "In the same pan, heat 1 tbsp butter.",
+      "Add the blended paste.",
+      "Add dry spices:",
+      "½ tsp turmeric",
+      "1 tsp red chilli powder",
+      "1 tsp coriander powder",
+      "Salt to taste",
+      "Cook for 4–5 minutes till oil separates.",
+      "Step 4: Make it Shahi",
+      "Add ½ to 1 cup water to adjust gravy consistency.",
+      "Add 3–4 tbsp fresh cream.",
+      "Add ½ tsp kasuri methi (crush with hand).",
+      "Cook for 2–3 minutes on low flame.",
+      "Step 5: Add Paneer",
+      "Add 200–250g paneer cubes.",
+      "Mix gently and cook for 2 minutes on low flame (don’t overcook paneer).",
+      "Step 6: Final Touch",
+      "Sprinkle ½ tsp garam masala.",
+      "Garnish with fresh coriander.",
+      "Serve hot with naan, roti, or jeera rice."
+    ],
+    "prepTime": "30"
+  }
+]

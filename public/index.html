@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Platform - Home</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">🍳 Recipe Platform</a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link active">Home</a></li>
+                <li><a href="recipes.html" class="nav-link">Browse Recipes</a></li>
+                <li><a href="submit.html" class="nav-link">Submit Recipe</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <header class="hero">
+            <h1>Welcome to Recipe Platform</h1>
+            <p>Discover amazing recipes, share your favorites, and explore culinary delights!</p>
+        </header>
+
+        <section class="stats-section">
+            <h2>Platform Statistics</h2>
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalRecipes">-</div>
+                    <div class="stat-label">Total Recipes</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalCategories">-</div>
+                    <div class="stat-label">Categories</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="avgPrepTime">-</div>
+                    <div class="stat-label">Avg Prep Time</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="favoriteCount">-</div>
+                    <div class="stat-label">Your Favorites</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="featured-section">
+            <h2>Featured Recipes</h2>
+            <div class="recipes-grid" id="featuredRecipes">
+                <div class="loading">Loading featured recipes...</div>
+            </div>
+        </section>
+
+        <section class="quick-links">
+            <h2>Quick Navigation</h2>
+            <div class="links-grid">
+                <a href="recipes.html" class="link-card">
+                    <h3>🔍 Browse All Recipes</h3>
+                    <p>Search and explore our complete recipe collection</p>
+                </a>
+                <a href="submit.html" class="link-card">
+                    <h3>➕ Submit Your Recipe</h3>
+                    <p>Share your favorite recipe with the community</p>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 Recipe Platform. All rights reserved.</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+        // Load statistics
+        async function loadStatistics() {
+            try {
+                const recipes = await fetchRecipes();
+                
+                // Total recipes
+                document.getElementById('totalRecipes').textContent = recipes.length;
+                
+                // Categories
+                const categories = getCategories(recipes);
+                document.getElementById('totalCategories').textContent = categories.length || 1;
+                
+                // Average prep time
+                if (recipes.length > 0) {
+                    const avgTime = Math.round(
+                        recipes.reduce((sum, r) => sum + Number(r.prepTime), 0) / recipes.length
+                    );
+                    document.getElementById('avgPrepTime').textContent = avgTime + ' min';
+                } else {
+                    document.getElementById('avgPrepTime').textContent = '0 min';
+                }
+                
+                // Favorite count
+                const favorites = Storage.getFavorites();
+                document.getElementById('favoriteCount').textContent = favorites.length;
+            } catch (error) {
+                console.error('Error loading statistics:', error);
+            }
+        }
+
+        // Load featured recipes on home page
+        async function loadFeaturedRecipes() {
+            try {
+                const recipes = await fetchRecipes();
+                const featuredContainer = document.getElementById('featuredRecipes');
+                
+                if (recipes.length === 0) {
+                    featuredContainer.innerHTML = '<p class="no-recipes">No recipes available yet. Be the first to submit one!</p>';
+                    return;
+                }
+
+                // Show first 6 recipes as featured (or top rated)
+                let featured = recipes.slice(0, 6);
+                
+                // Sort by rating if available
+                featured = featured.sort((a, b) => {
+                    const ratingA = getAverageRating(a.title);
+                    const ratingB = getAverageRating(b.title);
+                    return ratingB - ratingA;
+                });
+
+                featuredContainer.innerHTML = featured.map((recipe, index) => {
+                    const isFavorite = Storage.isFavorite(recipe.title);
+                    const rating = getAverageRating(recipe.title);
+                    
+                    return `
+                        <div class="recipe-card" style="animation-delay: ${index * 0.1}s">
+                            <div class="recipe-card-header">
+                                <h3>${escapeHtml(recipe.title)}</h3>
+                                <div class="recipe-card-actions">
+                                    <button class="favorite-btn ${isFavorite ? 'active' : ''}" 
+                                            onclick="toggleFavorite('${escapeHtml(recipe.title)}', this)" 
+                                            title="${isFavorite ? 'Remove from favorites' : 'Add to favorites'}">
+                                        ${isFavorite ? '❤️' : '🤍'}
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            ${recipe.category ? `<span class="badge badge-category">${escapeHtml(recipe.category)}</span>` : ''}
+                            ${recipe.difficulty ? `<span class="badge badge-difficulty ${recipe.difficulty}">${escapeHtml(recipe.difficulty)}</span>` : ''}
+                            
+                            ${rating > 0 ? `
+                                <div class="recipe-rating">
+                                    ${generateStars(rating)}
+                                </div>
+                            ` : ''}
+                            
+                            <div class="recipe-stats">
+                                <span class="recipe-stat">⏱️ ${recipe.prepTime} min</span>
+                                ${recipe.servings ? `<span class="recipe-stat">🍽️ ${recipe.servings}</span>` : ''}
+                            </div>
+                            
+                            <p class="ingredients-preview">${recipe.ingredients.length} ingredients</p>
+                            <a href="recipe-detail.html?id=${encodeURIComponent(recipe.title)}" class="btn-primary">View Recipe</a>
+                        </div>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Error loading featured recipes:', error);
+                document.getElementById('featuredRecipes').innerHTML = 
+                    '<p class="error">Failed to load recipes. Please try again later.</p>';
+            }
+        }
+
+        // Toggle favorite
+        function toggleFavorite(recipeTitle, button) {
+            const isNowFavorite = Storage.toggleFavorite(recipeTitle);
+            button.classList.toggle('active', isNowFavorite);
+            button.innerHTML = isNowFavorite ? '❤️' : '🤍';
+            button.title = isNowFavorite ? 'Remove from favorites' : 'Add to favorites';
+            showToast(isNowFavorite ? 'Added to favorites!' : 'Removed from favorites!');
+            loadStatistics(); // Update favorite count
+        }
+
+        // Load on page load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                loadStatistics();
+                loadFeaturedRecipes();
+            });
+        } else {
+            loadStatistics();
+            loadFeaturedRecipes();
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,160 @@
+1. Product Overview
+
+A web platform that allows users to browse, search, view details, and submit cooking recipes in a structured format. Focus is on readability, simple navigation, and JSON-based persistence.
+
+2. Goals
+
+Showcase featured recipes on the home page.
+
+Allow searching and browsing through all recipes.
+
+Display recipe details in structured format (ingredients, steps, prep time).
+
+Accept new recipe submissions using validated forms.
+
+Persist submitted recipes in a recipes.json file through API endpoints.
+
+3. Target Audience
+
+Food lovers, home cooks, and recipe bloggers.
+
+Users accessing from desktop and mobile browsers.
+
+4. Core Features
+4.1 Home Page
+
+Shows featured recipes (static + fetched recipes).
+
+Quick navigation to recipe list and submission form.
+
+4.2 Recipe List & Search Page
+
+Search bar filtering recipes by:
+
+Recipe Name
+
+Ingredient keywords
+
+Filter is client-side using JavaScript.
+
+4.3 Recipe Detail Page
+
+Displays:
+
+Recipe Title
+
+Prep time (in minutes)
+
+Ingredients (bulleted list)
+
+Cooking steps (numbered list)
+
+4.4 Submit Recipe Page
+
+Form fields:
+
+Field	Required	Format
+Title	✅ Yes	Single line
+Ingredients	✅ Yes	Array (comma/multiline converted to list)
+Steps	✅ Yes	Array (multiline converted to ordered steps)
+Prep Time	✅ Yes	Number in minutes
+
+Client-side validation prevents empty or invalid input.
+
+POST request sends the structured recipe to server.
+
+4.5 API Endpoints
+Method	Endpoint	Function
+GET	/api/recipes	Sends all recipes from recipes.json
+POST	/api/recipes	Adds a new recipe to recipes.json
+4.6 Data Persistence Format
+
+Each recipe saved in recipes.json:
+
+{
+  "title": "Recipe Name",
+  "ingredients": ["item1", "item2"],
+  "steps": ["step1", "step2"],
+  "prepTime": "15"
+}
+
+5. Technology Stack
+Component	Tech
+Frontend Structure	HTML
+Styling	CSS (clean typography, responsive UI)
+Client Logic	JavaScript (Fetch API + validation)
+Server Logic	Node.js (static file serving + API)
+Storage	File-based JSON (recipes.json)
+6. UI/UX Requirements
+
+High readability for steps and ingredients.
+
+Responsive layout for mobile + desktop.
+
+Consistent navbar for navigation.
+
+Clear form error messages during validation.
+
+7. Functional Requirements
+
+System must:
+
+Fetch recipes asynchronously.
+
+Validate form on client.
+
+Append to JSON file without overwriting.
+
+Optionally avoid duplicate titles in MVP.
+
+Reject malformed POST data at API layer if required fields are missing.
+
+8. Non-Functional Requirements
+
+Fast page loads (<3 sec on normal networks).
+
+JSON integrity maintained during concurrent writes.
+
+Mobile responsiveness must be supported.
+
+No authentication required in MVP.
+
+9. Constraints
+
+No database used initially.
+
+JSON file is source of truth.
+
+No user login or media upload supported yet.
+
+Limited concurrency support due to file writes.
+
+10. Future Enhancements
+
+User accounts & authentication.
+
+Recipe rating and commenting.
+
+Favorites/bookmarking system.
+
+Image upload support.
+
+More filters (cuisine, diet tags, difficulty).
+
+11. Success Metrics
+
+100+ recipe submissions in first 2 months.
+
+<2% form validation failure rate.
+
+70% user return rate.
+
+90% positive readability feedback.
+
+12. Security Considerations
+
+Sanitize POST inputs.
+
+Limit payload size to avoid JSON corruption.
+
+Add rate-limiting in future iterations.

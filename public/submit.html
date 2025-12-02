@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Platform - Submit Recipe</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">🍳 Recipe Platform</a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="recipes.html" class="nav-link">Browse Recipes</a></li>
+                <li><a href="submit.html" class="nav-link active">Submit Recipe</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <header class="page-header">
+            <h1>Submit Your Recipe</h1>
+            <p>Share your favorite recipe with the community</p>
+        </header>
+
+        <section class="form-section">
+            <form id="recipeForm" class="recipe-form">
+                <div class="form-group">
+                    <label for="title">Recipe Title <span class="required">*</span></label>
+                    <input 
+                        type="text" 
+                        id="title" 
+                        name="title" 
+                        class="form-input" 
+                        placeholder="e.g., Chocolate Chip Cookies"
+                        required
+                    >
+                    <span class="error-message" id="titleError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="ingredients">Ingredients <span class="required">*</span></label>
+                    <textarea 
+                        id="ingredients" 
+                        name="ingredients" 
+                        class="form-textarea" 
+                        rows="6"
+                        placeholder="Enter ingredients, one per line or separated by commas&#10;e.g.,&#10;2 cups flour&#10;1 cup sugar&#10;or: 2 cups flour, 1 cup sugar"
+                        required
+                    ></textarea>
+                    <small class="form-hint">Enter one ingredient per line, or separate by commas</small>
+                    <span class="error-message" id="ingredientsError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="steps">Cooking Steps <span class="required">*</span></label>
+                    <textarea 
+                        id="steps" 
+                        name="steps" 
+                        class="form-textarea" 
+                        rows="8"
+                        placeholder="Enter cooking steps, one per line&#10;e.g.,&#10;Preheat oven to 350°F&#10;Mix dry ingredients&#10;Bake for 20 minutes"
+                        required
+                    ></textarea>
+                    <small class="form-hint">Enter one step per line</small>
+                    <span class="error-message" id="stepsError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="prepTime">Prep Time (minutes) <span class="required">*</span></label>
+                    <input 
+                        type="number" 
+                        id="prepTime" 
+                        name="prepTime" 
+                        class="form-input" 
+                        placeholder="e.g., 30"
+                        min="1"
+                        required
+                    >
+                    <span class="error-message" id="prepTimeError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <input 
+                        type="text" 
+                        id="category" 
+                        name="category" 
+                        class="form-input" 
+                        placeholder="e.g., Dessert, Main Course, Appetizer"
+                        list="categorySuggestions"
+                    >
+                    <datalist id="categorySuggestions">
+                        <option value="Dessert">
+                        <option value="Main Course">
+                        <option value="Appetizer">
+                        <option value="Side Dish">
+                        <option value="Breakfast">
+                        <option value="Lunch">
+                        <option value="Dinner">
+                        <option value="Snack">
+                        <option value="Beverage">
+                        <option value="Salad">
+                        <option value="Soup">
+                        <option value="Bread">
+                    </datalist>
+                    <small class="form-hint">Optional: Categorize your recipe</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="difficulty">Difficulty Level</label>
+                    <select id="difficulty" name="difficulty" class="form-input">
+                        <option value="">Select difficulty (optional)</option>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                    <small class="form-hint">Optional: How difficult is this recipe?</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="servings">Servings</label>
+                    <input 
+                        type="number" 
+                        id="servings" 
+                        name="servings" 
+                        class="form-input" 
+                        placeholder="e.g., 4"
+                        min="1"
+                    >
+                    <small class="form-hint">Optional: How many servings does this recipe make?</small>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary btn-large">Submit Recipe</button>
+                    <button type="reset" class="btn-secondary">Clear Form</button>
+                </div>
+
+                <div id="formMessage" class="form-message"></div>
+            </form>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 Recipe Platform. All rights reserved.</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+        const form = document.getElementById('recipeForm');
+        const formMessage = document.getElementById('formMessage');
+
+        // Parse ingredients from text (handles both comma-separated and line-separated)
+        function parseIngredients(text) {
+            if (!text || !text.trim()) return [];
+            
+            // Split by newlines first, then by commas if no newlines
+            let items = text.split('\n').map(line => line.trim()).filter(line => line);
+            
+            // If only one line, try splitting by comma
+            if (items.length === 1) {
+                items = items[0].split(',').map(item => item.trim()).filter(item => item);
+            }
+            
+            return items;
+        }
+
+        // Parse steps from text (line-separated)
+        function parseSteps(text) {
+            if (!text || !text.trim()) return [];
+            return text.split('\n')
+                .map(step => step.trim())
+                .filter(step => step);
+        }
+
+        // Validate form
+        function validateForm() {
+            let isValid = true;
+            
+            // Clear previous errors
+            document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+            formMessage.textContent = '';
+            formMessage.className = 'form-message';
+
+            const title = document.getElementById('title').value.trim();
+            const ingredientsText = document.getElementById('ingredients').value.trim();
+            const stepsText = document.getElementById('steps').value.trim();
+            const prepTime = document.getElementById('prepTime').value.trim();
+
+            // Validate title
+            if (!title) {
+                document.getElementById('titleError').textContent = 'Title is required';
+                isValid = false;
+            }
+
+            // Validate ingredients
+            const ingredients = parseIngredients(ingredientsText);
+            if (ingredients.length === 0) {
+                document.getElementById('ingredientsError').textContent = 'At least one ingredient is required';
+                isValid = false;
+            }
+
+            // Validate steps
+            const steps = parseSteps(stepsText);
+            if (steps.length === 0) {
+                document.getElementById('stepsError').textContent = 'At least one step is required';
+                isValid = false;
+            }
+
+            // Validate prep time
+            const prepTimeNum = Number(prepTime);
+            if (!prepTime || isNaN(prepTimeNum) || prepTimeNum < 1) {
+                document.getElementById('prepTimeError').textContent = 'Prep time must be a positive number';
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        // Handle form submission
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (!validateForm()) {
+                return;
+            }
+
+            const title = document.getElementById('title').value.trim();
+            const ingredientsText = document.getElementById('ingredients').value.trim();
+            const stepsText = document.getElementById('steps').value.trim();
+            const prepTime = document.getElementById('prepTime').value.trim();
+            const category = document.getElementById('category').value.trim();
+            const difficulty = document.getElementById('difficulty').value.trim();
+            const servings = document.getElementById('servings').value.trim();
+
+            const ingredients = parseIngredients(ingredientsText);
+            const steps = parseSteps(stepsText);
+
+            const recipeData = {
+                title,
+                ingredients,
+                steps,
+                prepTime
+            };
+
+            // Add optional fields if provided
+            if (category) recipeData.category = category;
+            if (difficulty) recipeData.difficulty = difficulty;
+            if (servings) recipeData.servings = servings;
+
+            try {
+                const response = await submitRecipe(recipeData);
+                
+                if (response.ok) {
+                    formMessage.textContent = 'Recipe submitted successfully! Redirecting...';
+                    formMessage.className = 'form-message success';
+                    form.reset();
+                    
+                    // Redirect to recipe detail page after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = `recipe-detail.html?id=${encodeURIComponent(title)}`;
+                    }, 2000);
+                } else {
+                    const error = await response.json();
+                    formMessage.textContent = error.error || 'Failed to submit recipe. Please try again.';
+                    formMessage.className = 'form-message error';
+                }
+            } catch (error) {
+                console.error('Error submitting recipe:', error);
+                formMessage.textContent = 'Network error. Please check your connection and try again.';
+                formMessage.className = 'form-message error';
+            }
+        });
+
+        // Real-time validation on blur
+        document.getElementById('title').addEventListener('blur', validateForm);
+        document.getElementById('ingredients').addEventListener('blur', validateForm);
+        document.getElementById('steps').addEventListener('blur', validateForm);
+        document.getElementById('prepTime').addEventListener('blur', validateForm);
+    </script>
+</body>
+</html>
+
